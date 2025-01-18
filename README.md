@@ -210,6 +210,122 @@ CTest({'zhangsan', 'lisi', 'wangwu'})
 
 
 
+***1 遍历Table***
+
+**CPP代码**
+
+```cpp
+int Test_TableParam(lua_State* L)
+{
+    lua_pushnil(L); //nil作为第一个key,这是遍历规则
+
+    //根据当前栈底判断key是否存在后续,有就弹出key,压入后一个元素的key和value
+    while(lua_next(L, 1) != 0) 
+    {
+        printf("key = %s ", lua_tostring(L, -2));
+        printf("value = %s \n", lua_tostring(L, -1));
+        lua_pop(L, 1);
+    }
+    
+    return 0;
+}
+```
+
+**lua代码**
+
+```lua
+local t = {
+	name = "xiaoming",
+	age = "20",
+	sex = "男"
+}
+Test_TableParam(t)
+```
+
+
+
+
+
+***2 访问Table指定Key***
+
+**CPP代码**
+
+```cpp
+int Test_GetField(lua_State* L)
+{
+    lua_getfield(L, 1, "name");
+    printf("table[name] = %s ", lua_tostring(L, -1));
+    lua_pop(L, 1);
+
+    return 0;
+}
+```
+
+**lua代码**
+
+```lua
+local t = {
+	name = "xiaoming",
+	age = "20",
+	sex = "男"
+}
+--Test_TableParam(t)
+Test_GetField(t)
+```
+
+
+
+
+
+***3 参数类型检查***
+
+lua有两种:  
+
+**(1) luaL_checktype**
+
+这种是强制类型检查,  类型不匹配直接退出
+
+**(2) lua_type** 
+
+这种类似获取类型,  通过返回值给出
+
+**lua的类型有以下:**
+
+![image-20250119011309472](README/image-20250119011309472.png)
+
+
+
+
+
+**CPP代码**
+
+```cpp
+int Test_CheckType(lua_State* L)
+{
+    luaL_checktype(L, 1, LUA_TTABLE);
+
+    if(lua_type(L, 1) != LUA_TTABLE)
+    {
+        printf("type is not table!\n");
+    }
+
+    return 0;
+}
+```
+
+**lua代码**
+
+```lua
+Test_CheckType(1)
+Test_CheckType({1,2})
+```
+
+
+
+
+
+
+
 
 
 
