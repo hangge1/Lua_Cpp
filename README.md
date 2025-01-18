@@ -330,11 +330,67 @@ Test_CheckType({1,2})
 
 
 
+### 五. Lua调用C++函数[有返回值]
 
 
 
+**1  普通返回值**
+
+**CPP代码**
+
+```cpp
+int Test_ReturnNormalValue(lua_State* L)
+{
+    lua_pushnumber(L, 99); //第一个返回值
+    lua_pushstring(L, "Hello World!"); //第二个返回值
+
+    return 2; //返回1个值
+}
+```
+
+**lua代码**
+
+```lua
+id, str = Test_ReturnNormalValue()
+print(id, str)
+```
 
 
+
+**2 Table返回值**
+
+**CPP代码**
+
+```cpp
+int Test_ReturnTableValue(lua_State* L)
+{
+    lua_newtable(L);
+
+    //插入第一对key,value
+    lua_pushstring(L, "Name");
+    lua_pushstring(L, "John");
+    lua_settable(L, -3); //弹出{key, value}到-3指向的表
+
+    //插入第二对key,value
+    lua_pushstring(L, "Age");
+    lua_pushnumber(L, 13);
+    lua_settable(L, -3);
+
+    return 1; //返回1个值
+}
+```
+
+**lua代码**
+
+```lua
+local t = Test_ReturnTableValue()
+print("Name = " .. t.Name)
+print("Age = " .. t.Age)
+```
+
+**结果:**
+
+![image-20250119012801365](README/image-20250119012801365.png)
 
 
 
