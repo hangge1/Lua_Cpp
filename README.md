@@ -96,7 +96,7 @@ print('Hello Lua!')
 
 
 
-### 二. Lua调用C++函数[普通参数]
+### 二. Lua调用C++函数[传普通参数]
 
 **1 注册函数到lua**
 
@@ -150,7 +150,69 @@ CTest("Hello", 20, false)
 
 
 
-### 三. Lua调用C++函数[数组参数]
+### 三. Lua调用C++函数[传数组参数]
+
+
+
+类似的注册不多赘述, 主要贴下**CPP代码**
+
+```cpp
+int CTest(lua_State* L)
+{
+    //1 获取数组长度
+    //2 遍历数组元素
+    lua_len(L, 1); //获取栈底的数据长度, 把它压栈
+    int arrLen = lua_tointeger(L, -1);
+    printf("array len = %d\n", arrLen);
+    lua_pop(L, 1);
+
+    for(int i = 1; i <= arrLen; i++)
+    {
+        lua_pushnumber(L, i); //压入访问下标
+        lua_gettable(L, 1); //pop下标, 压入对应下标元素
+        printf("arr[%d] = %s\n", i, lua_tostring(L, -1));
+        lua_pop(L, 1); //弹出元素
+    }
+
+    return 0; //表示0个返回值
+}
+```
+
+
+
+**lua 代码**
+
+```lua
+CTest({'zhangsan', 'lisi', 'wangwu'})
+```
+
+
+
+**结果:** 
+
+![image-20250119005139330](README/image-20250119005139330.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 四. Lua调用C++函数[传Table参数和变量类型检查]
+
+
+
+
+
+
 
 
 
