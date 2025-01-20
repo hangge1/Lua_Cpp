@@ -19,7 +19,7 @@ int CTest(lua_State* L)
     for(int i = 1; i <= arrLen; i++)
     {
         lua_pushnumber(L, i); //压入访问下标
-        lua_gettable(L, 1); //pop下标, 压入对应下标元素
+        lua_gettable(L, 1); //1是数组的位置 栈顶弹出一个值作为key, 获取表中对应的值, 值压入栈顶
         printf("arr[%d] = %s\n", i, lua_tostring(L, -1));
         lua_pop(L, 1); //弹出元素
     }

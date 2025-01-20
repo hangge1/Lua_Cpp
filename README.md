@@ -398,3 +398,85 @@ print("Age = " .. t.Age)
 
 
 
+
+
+
+
+
+
+### 六. C++获取和设置Lua的全局变量
+
+**(1) 获取Lua全局变量**
+
+**CPP代码**
+
+```cpp
+void Test_GetLuaVar(lua_State* L)
+{
+    lua_getglobal(L, "Width");
+    int width = lua_tonumber(L, -1);
+    lua_pop(L, 1);
+    printf("width = %d\n", width);
+}
+```
+
+**lua代码**
+
+```lua
+Width = 1080;
+```
+
+**结果:**
+
+![image-20250120200027271](README/image-20250120200027271.png)
+
+
+
+**(2) 设置Lua全局变量**
+
+**CPP代码**
+
+```cpp
+void Test_SetLuaVar(lua_State* L)
+{
+    lua_pushstring(L, "Hello World Lua!");
+    lua_setglobal(L, "TestVar"); //弹出栈顶, 设置全局变量名称为TestVar
+}
+```
+
+**lua代码**
+
+```lua
+print("TestVar = " .. TestVar)
+```
+
+**结果:**
+
+![image-20250120200306349](README/image-20250120200306349.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
