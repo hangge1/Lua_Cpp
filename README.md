@@ -534,6 +534,226 @@ print("max_thread = " .. thread_conf.max_thread_num)
 
 
 
+### 八. C++调用Lua的函数
+
+***带参数. 但无返回值***
+
+**CPP代码**
+
+```cpp
+void CallLuaFunction_NoReturn(lua_State* L)
+{
+    lua_getglobal(L, "readfile");
+    lua_pushstring(L, "conf.txt");
+    if(lua_pcall(L, 1, 0, 0) != 0)
+    {
+        const char* error = lua_tostring(L, -1);
+        printf("call error: %s\n", error);
+    }
+}
+```
+
+**lua代码**
+
+```lua
+function readfile(filename)
+	print('read ' .. filename .. "!")
+end
+```
+
+**结果:**
+
+![image-20250120202844366](README/image-20250120202844366.png)
+
+
+
+***带参数. 也有返回值***
+
+**CPP代码**
+
+```cpp
+void CallLuaFunction_HasReturn(lua_State* L)
+{
+    lua_getglobal(L, "MySum");
+    lua_pushnumber(L, 1); //第一个参数
+    lua_pushnumber(L, 2); //第二个参数
+    lua_pushnumber(L, 3); //第三个参数
+    if(lua_pcall(L, 3, 1, 0) != 0)
+    {
+        const char* error = lua_tostring(L, -1);
+        printf("call error: %s\n", error);
+    }
+    else
+    {
+        printf("1+2+3 = %d\n", lua_tointeger(L, -1)); //获取返回值
+        lua_pop(L, 1);
+    }
+}
+```
+
+**lua代码**
+
+```lua
+function MySum(...)
+	local args = {...}
+	local sum = 0
+	for i, v in ipairs(args) do
+		sum = sum + v
+	end
+	return sum
+end
+```
+
+**结果:**
+
+![image-20250120203357135](README/image-20250120203357135.png)
+
+
+
+***指定错误处理函数为lua的函数***
+
+**CPP代码**
+
+```cpp
+void CallLuaFunction_HasErrorFunc(lua_State* L)
+{
+    lua_getglobal(L, "err_cb");
+    int errfuncIndex = lua_gettop(L); //获取err_cb在栈的位置
+
+    lua_getglobal(L, "MyTest");
+    lua_pushstring(L, "Hello");
+    //传入错误处理
+    if(lua_pcall(L, 1, 0, errfuncIndex) != 0)
+    {
+        const char* error = lua_tostring(L, -1);
+        printf("call error: %s\n", error);
+    }
+}
+```
+
+**lua代码**
+
+```lua
+function err_cb()
+	print("error...!")
+end
+
+function MyTest(str)
+	local s = str - 1 --故意产生错误
+	print("Test..")
+end
+```
+
+**结果:**
+
+![image-20250120204911913](README/image-20250120204911913.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 九. C++调用Lua的函数,带Table类型
+
+**参数为Table类型**
+
+**CPP代码**
+
+```cpp
+void CallLuaFunc_TableParam(lua_State* L)
+{
+    lua_getglobal(L, "PrintPerson");
+    lua_newtable(L);
+    lua_pushstring(L,"name");
+    lua_pushstring(L,"Tom");
+    lua_settable(L, -3);
+    lua_pushstring(L,"age");
+    lua_pushinteger(L,18);
+    lua_settable(L, -3);
+
+    if(lua_pcall(L, 1, 0, 0) != 0)
+    {
+        const char* error = lua_tostring(L, -1);
+        printf("call error: %s\n", error);
+    }
+}
+```
+
+**lua代码**
+
+```lua
+function PrintPerson(person)
+	print('name = ' .. person.name)
+	print('age = ' .. person.age)
+end
+```
+
+**结果:**
+
+![image-20250120205704255](README/image-20250120205704255.png)
+
+
+
+
+
+**返回值为Table类型**
+
+**CPP代码**
+
+```cpp
+void CallLuaFunc_TableParam2(lua_State* L)
+{
+    lua_getglobal(L, "GetConf");
+    if(lua_pcall(L, 0, 1, 0) != 0)
+    {
+        const char* error = lua_tostring(L, -1);
+        printf("call error: %s\n", error);
+    }
+    else
+    {
+        lua_getfield(L, -1, "width");
+        printf("width = %d\n", lua_tointeger(L, -1));
+        lua_pop(L, 1);
+
+        lua_getfield(L, -1, "height");
+        printf("height = %d\n", lua_tointeger(L, -1));
+        lua_pop(L, 1);
+    }
+    lua_pop(L, 1);
+}
+```
+
+**lua代码**
+
+```lua
+function GetConf()
+	local ret = {
+		width = 1920,
+		height = 1080
+	}
+	return ret
+end
+```
+
+**结果:**
+
+![image-20250120210054280](README/image-20250120210054280.png)
+
+
+
+
+
+
+
 
 
 
