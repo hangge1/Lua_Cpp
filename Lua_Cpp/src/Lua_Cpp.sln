@@ -20,6 +20,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05_LuaCallCppFuntion_Return
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "06_CppGetAndSetLuaGlobalVariable", "06_CppGetAndSetLuaGlobalVariable\06_CppGetAndSetLuaGlobalVariable.vcxproj", "{A8EB6102-2C57-4232-9A66-905960E41643}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "07_CppGetAndSetTable", "07_CppGetAndSetTable\07_CppGetAndSetTable.vcxproj", "{B8F1F370-BC23-4652-BEC8-1B136C8A909B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -84,6 +86,14 @@ Global
 		{A8EB6102-2C57-4232-9A66-905960E41643}.Release|x64.Build.0 = Release|x64
 		{A8EB6102-2C57-4232-9A66-905960E41643}.Release|x86.ActiveCfg = Release|Win32
 		{A8EB6102-2C57-4232-9A66-905960E41643}.Release|x86.Build.0 = Release|Win32
+		{B8F1F370-BC23-4652-BEC8-1B136C8A909B}.Debug|x64.ActiveCfg = Debug|x64
+		{B8F1F370-BC23-4652-BEC8-1B136C8A909B}.Debug|x64.Build.0 = Debug|x64
+		{B8F1F370-BC23-4652-BEC8-1B136C8A909B}.Debug|x86.ActiveCfg = Debug|Win32
+		{B8F1F370-BC23-4652-BEC8-1B136C8A909B}.Debug|x86.Build.0 = Debug|Win32
+		{B8F1F370-BC23-4652-BEC8-1B136C8A909B}.Release|x64.ActiveCfg = Release|x64
+		{B8F1F370-BC23-4652-BEC8-1B136C8A909B}.Release|x64.Build.0 = Release|x64
+		{B8F1F370-BC23-4652-BEC8-1B136C8A909B}.Release|x86.ActiveCfg = Release|Win32
+		{B8F1F370-BC23-4652-BEC8-1B136C8A909B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

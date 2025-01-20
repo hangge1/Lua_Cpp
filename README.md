@@ -462,9 +462,71 @@ print("TestVar = " .. TestVar)
 
 
 
+### 七. C++获取和设置Lua的表类型变量
+
+**获取表类型变量**
+
+**CPP代码**
+
+```cpp
+void Test_GetLuaTable(lua_State* L)
+{
+    lua_getglobal(L, "conf"); //获取conf变量,压入栈顶
+    lua_getfield(L, -1, "ip"); //获取key为ip的值,压入栈顶
+    printf("ip = %s\n", lua_tostring(L, -1));
+    lua_pop(L, 1); //出栈ip的值
+
+    lua_getfield(L, -1, "port");
+    printf("port = %d\n", lua_tointeger(L, -1));
+    lua_pop(L, 2); //出栈port的值和conf变量
+}
+```
+
+**lua代码**
+
+```lua
+conf = {
+	ip = "192.168.0.1",
+	port = 8888
+}
+```
+
+**结果:**
+
+![image-20250120201152233](README/image-20250120201152233.png)
 
 
 
+**设置表类型变量**
+
+**CPP代码**
+
+```cpp
+void Test_SetLuaTable(lua_State* L)
+{
+    lua_newtable(L);
+    lua_pushstring(L, "min_thread_num");
+    lua_pushnumber(L, 5);
+    lua_settable(L, -3);
+
+    lua_pushstring(L, "max_thread_num");
+    lua_pushnumber(L, 10);
+    lua_settable(L, -3);
+
+    lua_setglobal(L, "thread_conf");
+}
+```
+
+**lua代码**
+
+```lua
+print("min_thread = " .. thread_conf.min_thread_num)
+print("max_thread = " .. thread_conf.max_thread_num)
+```
+
+**结果:**
+
+![image-20250120201623154](README/image-20250120201623154.png)
 
 
 
